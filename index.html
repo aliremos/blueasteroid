@@ -1,167 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Water Use Insights</title>
-  <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-    }
-
-    header {
-      background: #0078D7;
-      color: white;
-      padding: 1em;
-      text-align: center;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-around;
-      background: #005bb5;
-      padding: 0.5em;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 0.5em 1em;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-
-    nav a:hover {
-      background: #003f7f;
-    }
-
-    main {
-      padding: 2em;
-    }
-
-    .filter-container {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 2em;
-    }
-
-    .filter-container select {
-      padding: 0.5em;
-      font-size: 1em;
-    }
-
-    .chart-container {
-      width: 80%;
-      margin: auto;
-    }
-
-    footer {
-      background: #005bb5;
-      color: white;
-      text-align: center;
-      padding: 1em;
-      margin-top: 2em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Highlight on Hover</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #globe {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Water Use Insights</h1>
-    <p>Explore water data and insights across the globe</p>
-  </header>
-  <nav>
-    <a href="#story">Story of Water</a>
-    <a href="#charts">Interactive Charts</a>
-    <a href="#about">About Us</a>
-  </nav>
-  <main>
-    <!-- Filter Section -->
-    <div id="filters" class="filter-container">
-      <select id="country-filter">
-        <option value="" disabled selected>Select a Country</option>
-        <!-- Country options will be populated dynamically -->
-      </select>
-      <select id="year-filter">
-        <option value="" disabled selected>Select a Year</option>
-        <!-- Year options will be populated dynamically -->
-      </select>
-      <select id="sector-filter">
-        <option value="" disabled selected>Select a Sector</option>
-        <option value="Agriculture">Agriculture</option>
-        <option value="Industry">Industry</option>
-        <option value="Municipal">Municipal</option>
-      </select>
-    </div>
+    <div id="globe"></div>
 
-    <!-- Chart Section -->
-    <div id="charts" class="chart-container">
-      <div id="chart"></div>
-    </div>
+    <script>
+        const countries = ['USA', 'CAN', 'BRA', 'IND', 'CHN', 'AUS', 'RUS']; // Country codes
+        const countryNames = ['United States', 'Canada', 'Brazil', 'India', 'China', 'Australia', 'Russia']; // Names for hover
+        const zValues = Array(countries.length).fill(0); // Base color values for countries
 
-    <!-- Story Section -->
-    <section id="story">
-      <h2>The Story of Water</h2>
-      <p>Learn about water's journey through countries and its impact on people and ecosystems.</p>
-      <p>Available in various forms, consumed by different sectors, and flowing between nations.</p>
-    </section>
-  </main>
-  <footer>
-    <p>Developed by Blue Asteroid | University of Hawaii at Manoa</p>
-  </footer>
+        // Initial data
+        var data = [{
+            type: 'choropleth',
+            locationmode: 'ISO-3',
+            locations: countries,
+            z: zValues,
+            text: countryNames,
+            hovertemplate: '%{text}', // Show country name on hover
+            colorscale: [
+                [0, 'rgb(230, 230, 230)'], // Default country color
+                [1, 'rgb(255, 0, 0)'] // Highlighted color (red)
+            ],
+            marker: {
+                line: {
+                    color: 'black',
+                    width: 0.5
+                }
+            },
+            zmin: 0,
+            zmax: 1 // Allow switching between base and highlight colors
+        }];
 
-  <script>
-    // Sample data for the chart
-    const data = [
-      {
-        x: ['Agriculture', 'Industry', 'Municipal'],
-        y: [40, 30, 20],
-        type: 'bar',
-        name: 'Water Use (Example)'
-      }
-    ];
+        // Layout
+        var layout = {
+            geo: {
+                projection: {
+                    type: 'orthographic'
+                },
+                showland: true,
+                landcolor: 'rgb(230, 230, 230)',
+                showcountries: true,
+                countrycolor: 'rgb(200, 200, 200)',
+                resolution: 50,
+                showcoastlines: true,
+                coastlinecolor: "black",
+                lataxis: { showgrid: false },
+                lonaxis: { showgrid: false }
+            },
+            margin: { l: 0, r: 0, t: 0, b: 0 }
+        };
 
-    const layout = {
-      title: 'Water Use by Sector',
-      plot_bgcolor: '#ffffff',
-      paper_bgcolor: '#f4f4f4'
-    };
+        // Plot the initial globe
+        Plotly.newPlot('globe', data, layout, { responsive: true });
 
-    // Initialize chart
-    Plotly.newPlot('chart', data, layout);
+        // Hover event listener to highlight countries
+        const globeElement = document.getElementById('globe');
+        globeElement.on('plotly_hover', function(eventData) {
+            const countryCode = eventData.points[0].location; // Get the ISO-3 code of the hovered country
+            const countryIndex = countries.indexOf(countryCode);
 
-    // Populate filters dynamically (example data)
-    const countries = ['USA', 'India', 'Brazil', 'Germany'];
-    const years = ['2020', '2021', '2022'];
+            if (countryIndex !== -1) {
+                // Highlight the hovered country by setting its z value to 1
+                const newZValues = [...zValues];
+                newZValues[countryIndex] = 1;
 
-    const countryFilter = document.getElementById('country-filter');
-    const yearFilter = document.getElementById('year-filter');
+                Plotly.update('globe', { z: [newZValues] }, {}, 0);
+            }
+        });
 
-    countries.forEach(country => {
-      const option = document.createElement('option');
-      option.value = country;
-      option.textContent = country;
-      countryFilter.appendChild(option);
-    });
+        // Hover out event listener to reset the map
+        globeElement.on('plotly_unhover', function(eventData) {
+            // Reset all countries to the base color
+            Plotly.update('globe', { z: [zValues] }, {}, 0);
+        });
 
-    years.forEach(year => {
-      const option = document.createElement('option');
-      option.value = year;
-      option.textContent = year;
-      yearFilter.appendChild(option);
-    });
-
-    // Event listeners for filters (to update chart dynamically)
-    document.querySelectorAll('select').forEach(select => {
-      select.addEventListener('change', () => {
-        console.log('Filter changed:', select.id, select.value);
-        // Logic to fetch and update chart based on selected filters
-      });
-    });
-  </script>
+        // Adjust globe size dynamically
+        window.addEventListener("resize", () => {
+            Plotly.relayout('globe', {
+                width: window.innerWidth,
+                height: window.innerHeight
+            });
+        });
+    </script>
 </body>
 </html>
