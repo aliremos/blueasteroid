@@ -252,7 +252,7 @@ const areaToCountry = {
 
 const zValues = Array(countries.length).fill(0); // Base color values for countries
 // Load CSV file
-d3.csv('/blueasteroid/blueasteroid/WaterStress__World_2017-2021.csv').then((data) => {
+d3.csv('WaterStress__World_2017-2021.csv').then((data) => {
     const { formattedData, minVal, maxVal } = processCSVData(data);
     console.log(maxVal)
     initializeChoropleth(minVal, maxVal);
