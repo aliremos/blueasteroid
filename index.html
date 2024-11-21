@@ -4,99 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICS 684 - Water Destiny Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        #globe {
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
 </head>
 <body>
     <div id="globe"></div>
-
-    <script>
-        const countries = ['USA', 'CAN', 'BRA', 'IND', 'CHN', 'AUS', 'RUS']; // Country codes
-        const countryNames = ['United States', 'Canada', 'Brazil', 'India', 'China', 'Australia', 'Russia']; // Names for hover
-        const zValues = Array(countries.length).fill(0); // Base color values for countries
-
-        // Initial data
-        var data = [{
-            type: 'choropleth',
-            locationmode: 'ISO-3',
-            locations: countries,
-            z: zValues,
-            text: countryNames,
-            hovertemplate: '%{text}', // Show country name on hover
-            colorscale: [
-                [0, 'rgb(230, 230, 230)'], // Default country color
-                [1, 'rgb(255, 0, 0)'] // Highlighted color (red)
-            ],
-            marker: {
-                line: {
-                    color: 'black',
-                    width: 0.5
-                }
-            },
-            zmin: 0,
-            zmax: 1 // Allow switching between base and highlight colors
-        }];
-
-        // Layout
-        var layout = {
-            geo: {
-                projection: {
-                    type: 'orthographic'
-                },
-                showland: true,
-                landcolor: 'rgb(230, 230, 230)',
-                showcountries: true,
-                countrycolor: 'rgb(200, 200, 200)',
-                resolution: 50,
-                showcoastlines: true,
-                coastlinecolor: "black",
-                lataxis: { showgrid: false },
-                lonaxis: { showgrid: false }
-            },
-            margin: { l: 0, r: 0, t: 0, b: 0 }
-        };
-
-        // Plot the initial globe
-        Plotly.newPlot('globe', data, layout, { responsive: true });
-
-        // Hover event listener to highlight countries
-        const globeElement = document.getElementById('globe');
-        globeElement.on('plotly_hover', function(eventData) {
-            const countryCode = eventData.points[0].location; // Get the ISO-3 code of the hovered country
-            const countryIndex = countries.indexOf(countryCode);
-
-            if (countryIndex !== -1) {
-                // Highlight the hovered country by setting its z value to 1
-                const newZValues = [...zValues];
-                newZValues[countryIndex] = 1;
-
-                Plotly.update('globe', { z: [newZValues] }, {}, 0);
-            }
-        });
-
-        // Hover out event listener to reset the map
-        globeElement.on('plotly_unhover', function(eventData) {
-            // Reset all countries to the base color
-            Plotly.update('globe', { z: [zValues] }, {}, 0);
-        });
-
-        // Adjust globe size dynamically
-        window.addEventListener("resize", () => {
-            Plotly.relayout('globe', {
-                width: window.innerWidth,
-                height: window.innerHeight
-            });
-        });
-    </script>
+    <div id="detailsdiv" >
+        <p>Country Details Will Appear Here</p>
+    </div>
+    <div id="yearcontrols">
+        <label for="yearSlider">Year:</label>
+        <input id="yearSlider" type="range" min="2017" max="2021" value="2017" step="1">
+        <span id="yearLabel">2017</span>
+    </div>
+    
+    
+    <script src="main.js"></script>
 </body>
 </html>
