@@ -285,6 +285,8 @@ function processCSVData(data) {
 // Hover event listener to highlight countries and show "detailsdiv"
 const globeElement = document.getElementById('globe');
 const detailsDiv = document.getElementById('detailsdiv');
+const detailstitle = document.getElementById('detailstitle');
+
 
 // Adjust globe size dynamically
 window.addEventListener("resize", () => {
@@ -338,6 +340,7 @@ function initializeChoropleth(zmin, zmax) {
 
     Plotly.newPlot('globe', data, layout, { responsive: true }).then(() => {
         globeElement.on('plotly_hover', function(eventData) {
+            drawRandomPetalChart();
             const countryCode = eventData.points[0].location; // Get the ISO-3 code of the hovered country
             const countryIndex = countries.indexOf(countryCode);
             if (countryIndex !== -1) {
@@ -349,7 +352,7 @@ function initializeChoropleth(zmin, zmax) {
     
                 // Show detailsDiv
                 detailsDiv.style.display = 'block';
-                detailsDiv.innerText = `Country: ${countryNames[countryIndex]}`;
+                detailstitle.innerText = `Country: ${countryNames[countryIndex]}`;
             }
         });
     
@@ -423,3 +426,68 @@ window.addEventListener("resize", () => {
     });
 });
 
+function generateRandomArray(length, min, max) {
+    return Array.from({ length }, () => Math.random() * (max - min) + min);
+  }
+
+  function drawRandomPetalChart() {
+    // Number of petals
+    const numPetals = 8;
+
+    // Generate random radii for two petal sets
+    const radii1 = generateRandomArray(numPetals, 1, 5);
+    const radii2 = generateRandomArray(numPetals, 1, 5);
+
+    // Angular positions for petals
+    const angles = Array.from({ length: numPetals }, (_, i) => (360 / numPetals) * i);
+
+    // Close the loop for polar scatter data
+    const closedRadii1 = radii1.concat(radii1[0]);
+    const closedRadii2 = radii2.concat(radii2[0]);
+    const closedAngles = angles.concat(angles[0]);
+
+    // Trace for the first set of petals
+    const trace1 = {
+      r: closedRadii1,
+      theta: closedAngles,
+      fill: 'toself',
+      type: 'scatterpolar',
+      fillcolor: 'rgba(100, 200, 255, 0.5)', // Light blue
+      line: {
+        color: 'rgba(100, 200, 255, 0.8)'
+      },
+      name: 'Petal Set 1'
+    };
+
+    // Trace for the second set of petals
+    const trace2 = {
+      r: closedRadii2,
+      theta: closedAngles,
+      fill: 'toself',
+      type: 'scatterpolar',
+      fillcolor: 'rgba(200, 100, 255, 0.5)', // Light purple
+      line: {
+        color: 'rgba(200, 100, 255, 0.8)'
+      },
+      name: 'Petal Set 2'
+    };
+
+    // Layout for the petal chart
+    const layout = {
+      title: 'Dynamic Petal Chart',
+      polar: {
+        angularaxis: {
+          visible: true
+        },
+        radialaxis: {
+          visible: true,
+          range: [0, 6] // Adjust the range dynamically
+        }
+      },
+      showlegend: false
+    };
+
+    // Combine traces and plot
+    const data = [trace1, trace2];
+    Plotly.newPlot('petalChart', data, layout);
+  }
