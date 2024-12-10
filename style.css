@@ -1,0 +1,102 @@
+body { margin: 0; }
+.scene-container .clickable {  cursor: pointer;}
+.scene-nav-info {
+    bottom: 5px;
+    width: 100%;
+    text-align: center;
+    color: slategrey;
+    opacity: 0.7;
+    font-size: 10px;
+  }
+  
+  .scene-tooltip {
+    top: 0;
+    color: lavender;
+    font-size: 15px;
+  }
+  
+  .scene-nav-info, .scene-tooltip {
+    position: absolute;
+    font-family: sans-serif;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  .scene-container canvas:focus {
+    outline: none;
+  }
+  #leftpanel,#rightpanel {
+    background: rgba(255, 255, 255, 0.73)
+  }
+  #leftpanel {
+    display: none;
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    border: 1px solid black;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+    text-align: center;
+    box-shadow: 10px 5px 18px black;
+    text-align: left;
+    overflow: auto;
+  }
+  #rightpanel {
+    display: none;
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    border: 1px solid black;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+    text-align: right;
+    box-shadow: 10px 5px 18px black;
+    text-align: left;
+    overflow: auto;
+    width: 500px;
+  }
+
+  #countryDropdown {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000;
+    padding: 5px;
+  }
+  #yearcontrols {
+    position: fixed;
+    bottom: 10px;
+    z-index: 100;
+    left: 155px;
+    color: white;
+  }
+  #countryminiview {
+    background-color: white;
+    color:black;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    min-width: 200px;
+  }
+  #closebtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  #globeViz {
+    width: 100%;
+    height: 100%;
+    position: relative; /* Ensure the div scales */
+    overflow: hidden;
+  }
+  
+  .closePanel{
+    background: none; border: none; font-size: 1.5rem; cursor: pointer;
+  }

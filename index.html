@@ -1,0 +1,98 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>ICS 684 - Water Destiny Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="//unpkg.com/d3"></script>
+    <script src="//unpkg.com/d3-dsv"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="//unpkg.com/globe.gl"></script>
+</head>
+  
+  <body>
+    <select id="countryDropdown">
+      <option value="" disabled selected>Select a country</option>
+      <option value="United States">United States</option>
+      <option value="China">China</option>
+      <option value="India">India</option>
+      <option value="Brazil">Brazil</option>
+      <option value="Australia">Australia</option>
+      <option value="Canada">Canada</option>
+      <option value="United Kingdom">United Kingdom</option>
+      <option value="Germany">Germany</option>
+      <option value="France">France</option>
+      <option value="Italy">Italy</option>
+      <option value="Russia">Russia</option>
+      <option value="Japan">Japan</option>
+      <option value="South Korea">South Korea</option>
+      <option value="Mexico">Mexico</option>
+      <option value="Argentina">Argentina</option>
+      <option value="South Africa">South Africa</option>
+      <option value="Egypt">Egypt</option>
+      <option value="Turkey">Turkey</option>
+      <option value="Indonesia">Indonesia</option>
+      <option value="Saudi Arabia">Saudi Arabia</option>
+      <option value="Spain">Spain</option>
+      <option value="Poland">Poland</option>
+      <option value="Sweden">Sweden</option>
+      <option value="Norway">Norway</option>
+      <option value="Finland">Finland</option>
+      <option value="Pakistan">Pakistan</option>
+      <option value="Bangladesh">Bangladesh</option>
+      <option value="Thailand">Thailand</option>
+      <option value="Vietnam">Vietnam</option>
+      <option value="Philippines">Philippines</option>
+      <option value="Malaysia">Malaysia</option>
+      <option value="New Zealand">New Zealand</option>
+      <option value="Nigeria">Nigeria</option>
+      <option value="Kenya">Kenya</option>
+      <option value="Colombia">Colombia</option>
+      <option value="Peru">Peru</option>
+      <option value="Chile">Chile</option>
+      <option value="Venezuela">Venezuela</option>
+      <option value="Iran">Iran</option>
+      <option value="Iraq">Iraq</option>
+      <option value="Afghanistan">Afghanistan</option>
+      <option value="Morocco">Morocco</option>
+      <option value="Ukraine">Ukraine</option>
+      <option value="Greece">Greece</option>
+      <option value="Portugal">Portugal</option>
+      <option value="Netherlands">Netherlands</option>
+      <option value="Switzerland">Switzerland</option>
+      <option value="Austria">Austria</option>
+      <option value="Belgium">Belgium</option>
+    </select>
+    
+    <div id="globeViz">
+        <div style="position: relative;">
+          <div>
+            <div class="scene-container">
+              <div class="scene-nav-info" style="display: none;">Left-click: rotate, Mouse-wheel/middle-click: zoom, Right-click: pan</div>
+              <div class="scene-tooltip" style="top: 93px; left: 1284px; transform: translate(-66.875%, 21px);"></div>
+              <canvas style="display: block; touch-action: none; width: 1920px; height: 1011px;" data-engine="three.js r171" width="1920" height="1011"></canvas>
+              <div style="overflow: hidden; position: absolute; top: 0px; pointer-events: none; width: 1920px; height: 1011px;"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="leftpanel">
+        <div class="closebtn">
+            <button id="leftclosePanel">&times;</button>
+        </div>        
+        <div id="subburstchart" ></div>
+    </div>
+    <div id="rightpanel">
+      <div class="closebtn" style="display: block;text-align: right;">
+          <button id="rightclosePanel">&times;</button>
+      </div>        
+      <div id="petalChart" ></div>
+  </div>    
+    <div id="yearcontrols">
+        <label for="yearSlider">Year:</label>
+        <input id="yearSlider" type="range" min="2017" max="2021" value="2017" step="1">
+        <span id="yearLabel">2017</span>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+  
