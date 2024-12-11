@@ -200,4 +200,26 @@ body { margin: 0; }
       border: 1px solid #ccc;
       background: linear-gradient(to right, #ffffcc 0%, #fd8d3c 50%, #800026 100%);
     }
-    
+
+
+      /* Container for the chart */
+  #chart-container, #petalChartContainer {
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    background: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* When in fullscreen, make the container fill the whole viewport */
+  :fullscreen #chart-container,:fullscreen #petalChartContainer {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #sunburstchart,  #petalChart {
+    width: 100%;
+    height: 100%;
+  }

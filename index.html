@@ -101,8 +101,12 @@
     <div id="leftpanel">
         <div class="closebtn">
             <button id="leftclosePanel">&times;</button>
+            <button id="sunburstfullScreenBtn">Toggle Fullscreen</button>
         </div>        
-        <div id="subburstchart" ></div>
+        <div id="chart-container">
+          <div id="sunburstchart"></div>
+        </div>
+        
         <div style="max-width: 400px;">
           <h1>Sunburst of Available Water</h1>
           <p style="font-size: 20px;text-align: justify;">
@@ -115,9 +119,15 @@
     </div>
     <div id="rightpanel">
       <div class="closebtn" style="display: block;text-align: right;">
+          <button id="fullscreenPetalBtn">Toggle Petal Chart Fullscreen</button>
           <button id="rightclosePanel">&times;</button>
+
       </div>        
-      <div id="petalChart" ></div>
+      <div id="petalChartContainer">
+        <div id="petalChart"></div>
+      </div>
+      
+      
       <div style="max-width: 400px;">
         <h1>Petal Chart of Water Use Efficiency</h1>
         <p style="font-size: 20px;text-align: justify;">
@@ -139,7 +149,6 @@
       <span>High(100% or over)</span>
     </div>
   </div>    
-    <script type="module" src="main.js"></script>
-    
+  <script type="module" src="main.js"></script>
   </body>
   

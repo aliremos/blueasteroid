@@ -51,6 +51,13 @@ const countryCoordinates = {
   "Austria": { lat: 47.5162, lng: 14.5501 },
   "Belgium": { lat: 50.8503, lng: 4.3517 },
 };
+const sunburstfullScreenBtn = document.getElementById('sunburstfullScreenBtn');
+const chartContainer = document.getElementById('chart-container');
+const petalContainer = document.getElementById('petalChartContainer');
+const fullscreenPetalBtn = document.getElementById('fullscreenPetalBtn');
+
+
+
 
 const dropdown = document.getElementById('countryDropdown');
 const weightColor = d3.scaleSequentialSqrt(d3.interpolateYlOrRd).domain([0, 1e7]);
@@ -61,6 +68,8 @@ const leftPanel = document.getElementById('leftpanel');// Add event listener for
 const rightPanel = document.getElementById('rightpanel');// Add event listener for the close button
 document.getElementById('leftclosePanel').addEventListener('click', () => {leftPanel.style.display = 'none';}); 
 document.getElementById('rightclosePanel').addEventListener('click', () => {rightPanel.style.display = 'none';}); 
+
+
 function display_panels(trueorfalse){
   if(trueorfalse){
             leftPanel.style.display = 'block';
@@ -118,7 +127,7 @@ function draw_leafs(filteredData, country, year) {
           theta: theta,
           type: 'scatterpolar',
           fill: 'toself',
-          name: variables[i].replace("SDG 6.4.1. ", "") +" "+values[i]+" (US$/m3)" || `Leaf ${i + 1}`, // Use variable name or fallback
+          name: variables[i].replace("SDG 6.4.1. ", "").replace("Water Use Efficiency", "") +" "+values[i]+" (US$/m3)" || `Leaf ${i + 1}`, // Use variable name or fallback
           hoverinfo: 'r+theta',
           fillcolor: colors[i],
           line: {
@@ -133,9 +142,10 @@ function draw_leafs(filteredData, country, year) {
 
   const layout = {
       polar: {
-          radialaxis: { visible: false, range: [0, Math.max(...values) * 1.5] },
-          angularaxis: { visible: false }
-      },
+        domain: { x: [0, 1], y: [0, 1] }, // Use the full area
+        radialaxis: { visible: false, range: [0, Math.max(...values) * 1.05] },
+        angularaxis: { visible: false }
+      },      
       showlegend: true,
       paper_bgcolor: 'rgba(0,0,0,0)', // Makes the background transparent
       plot_bgcolor: 'rgba(0,0,0,0)',   // Makes the plot area transparent
@@ -144,7 +154,7 @@ function draw_leafs(filteredData, country, year) {
           l: 10, // Reduce left margin
           r: 10, // Reduce right margin
           t: 10, // Reduce top margin
-          b: 60  // Add space for title and legend
+          b: 10  // Add space for title and legend
       },
       legend: {
           x: 0, // Move legend to the left
@@ -255,17 +265,44 @@ async function drawsunburstChart(year, country) {
 
     var layout = {
       margin: {l: 0, r: 0, b: 0, t: 0},
-      width: 600,
-      height: 600,
+
       sunburstcolorway:["#FF6F61", "#6B5B95", "#88B04B"],
       paper_bgcolor: 'rgba(0,0,0,0)', // Makes the background transparent
       plot_bgcolor: 'rgba(0,0,0,0)'   // Makes the plot area transparent
     };
     
-      Plotly.newPlot('subburstchart', data, layout);
+      Plotly.newPlot('sunburstchart', data, layout);
   });  
 
 }
+// Toggle fullscreen on the container
+sunburstfullScreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    chartContainer.requestFullscreen().catch(err => {
+      console.error(`Error attempting fullscreen: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+});
+// Listen for fullscreen changes to trigger a resize
+document.addEventListener('fullscreenchange', () => {
+  // Wait a moment for the container to resize
+  setTimeout(() => {
+    Plotly.Plots.resize('sunburstchart');
+    Plotly.Plots.resize('petalChart');
+  }, 200); 
+});
+fullscreenPetalBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    petalContainer.requestFullscreen().catch(err => {
+      console.error(`Error attempting fullscreen: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+});
+
 
 const getVal = feat => feat.properties.GDP_MD_EST / Math.max(1e5, feat.properties.POP_EST);
 fetch('ne_110m_admin_0_countries.geojson')
