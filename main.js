@@ -118,10 +118,15 @@ function draw_leafs(filteredData, country, year) {
           theta: theta,
           type: 'scatterpolar',
           fill: 'toself',
-          name: variables[i].replace("SDG 6.4.1. ", "") || `Leaf ${i + 1}`, // Use variable name or fallback
+          name: variables[i].replace("SDG 6.4.1. ", "") +" "+values[i]+" (US$/m3)" || `Leaf ${i + 1}`, // Use variable name or fallback
           hoverinfo: 'r+theta',
           fillcolor: colors[i],
-          line: { shape: 'spline', smoothing: 1.2 },
+          line: {
+            shape: 'spline', 
+            smoothing: 1.2,
+            color: colors[i],     // Set line color to match fillcolor
+            width: 2              // Optional: define line width
+          },
           showlegend: true
       });
   });
@@ -156,6 +161,7 @@ function draw_leafs(filteredData, country, year) {
               showarrow: false,
               font: {
                   size: 14
+                  
               }
           }
       ]
@@ -389,3 +395,12 @@ fetch('ne_110m_admin_0_countries.geojson')
     // If no match is found, log a message or handle it as needed
     console.error(`Country "${countryName}" not found in the dropdown.`);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('overlay');
+  const closeButton = document.getElementById('close-button');
+  closeButton.addEventListener('click', () => {
+    console.log("clicked")
+    overlay.style.display = 'none';
+  });
+});

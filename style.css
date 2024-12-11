@@ -26,6 +26,7 @@ body { margin: 0; }
     outline: none;
   }
   #leftpanel,#rightpanel {
+    
     background: rgba(255, 255, 255, 0.73)
   }
   #leftpanel {
@@ -100,3 +101,103 @@ body { margin: 0; }
   .closePanel{
     background: none; border: none; font-size: 1.5rem; cursor: pointer;
   }
+
+    /* The overlay that covers the entire screen */
+    #overlay {
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background: rgba(0, 0, 0, 0.37);
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      opacity: 1; 
+      visibility: visible; 
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 9999;
+    }
+  
+    /* The lightbox container */
+    #lightbox {
+      background: #ffffffde;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+      max-width: 60vw;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-size: 24px;
+      line-height: 40px;
+    }
+  
+    /* The close button in the top-right corner */
+    #close-button {
+      border: none;
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffffff;
+      cursor: pointer;
+      top: 10px;
+      right: 10px;
+    }
+  
+
+    .light-blue-button {
+      background: #4FC3F7; /* Light blue background */
+      border: none;
+      border-radius: 5px;
+      color: #fff; /* White text color */
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      padding: 10px 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Slight shadow for depth */
+      transition: background 0.3s ease, transform 0.3s ease; 
+    }
+  
+    .light-blue-button:hover {
+      background: #29B6F6; /* Darker blue on hover */
+      transform: translateY(-2px); /* Slight lift on hover */
+    }
+  
+    .light-blue-button:active {
+      background: #0288D1; /* Even darker on click */
+      transform: translateY(0); /* Return to normal on click */
+    }
+
+    .choropleth-legend {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      width: 50vw;
+      margin: 10px;
+      position: fixed;
+      bottom: 0px;
+      left: 400px;
+      color: white;
+    }
+    .legend-title {
+      margin-bottom: 5px;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .legend-scale {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .legend-scale span {
+      white-space: nowrap;
+    }
+    
+    .legend-gradient {
+      flex: 1;
+      height: 20px;
+      border: 1px solid #ccc;
+      background: linear-gradient(to right, #ffffcc 0%, #fd8d3c 50%, #800026 100%);
+    }
+    

@@ -9,7 +9,29 @@
     <script src="//unpkg.com/globe.gl"></script>
 </head>
   
-  <body>
+<body>
+    <div id="overlay">
+      <div id="lightbox">
+
+        <div>
+          <h2>Welcome to Blue Asteroid!</h2>
+          <p>
+            To achieve sustainable development goals, it is essential to monitor and assess indicators related
+            to water consumption and availability. The globe is color-coded to show the intensity
+            of water stress percentages across countries. The darker a country is shaded, the more severe its
+            recorded water stress. You can explore the map by panning, selecting a country from the drop-down list, or
+            hovering over and clicking within a country's borders!        
+  
+          </p>
+        </div>
+        <div>
+          <button class="light-blue-button " id="close-button">Got it!</button>
+        </div>
+        
+      </div>
+      
+    </div>
+
     <select id="countryDropdown">
       <option value="" disabled selected>Select a country</option>
       <option value="United States">United States</option>
@@ -81,18 +103,43 @@
             <button id="leftclosePanel">&times;</button>
         </div>        
         <div id="subburstchart" ></div>
+        <div style="max-width: 400px;">
+          <h1>Sunburst of Available Water</h1>
+          <p style="font-size: 20px;text-align: justify;">
+            This chart illustrates the different categories of available water resources in the selected
+            country. All values are measured in 10^9m3/year. Note that the sum of subgroups at the
+            same level may not equal the parent value due to overlaps between subgroups. Selecting
+            a category reveals its specific subcategories.            
+          </p>
+        </div>
     </div>
     <div id="rightpanel">
       <div class="closebtn" style="display: block;text-align: right;">
           <button id="rightclosePanel">&times;</button>
       </div>        
       <div id="petalChart" ></div>
+      <div style="max-width: 400px;">
+        <h1>Petal Chart of Water Use Efficiency</h1>
+        <p style="font-size: 20px;text-align: justify;">
+          This chart shows water use efficiency of different sectors, measured in US$/m3       
+        </p>
+      </div>      
   </div>    
     <div id="yearcontrols">
         <label for="yearSlider">Year:</label>
         <input id="yearSlider" type="range" min="2017" max="2021" value="2017" step="1">
         <span id="yearLabel">2017</span>
     </div>
+  <!-- Place this div wherever you want the legend to appear -->
+  <div class="choropleth-legend">
+    <div class="legend-title">Water Stress Scale</div>
+    <div class="legend-scale">
+      <span>Low(0%)</span>
+      <div class="legend-gradient"></div>
+      <span>High(100% or over)</span>
+    </div>
+  </div>    
     <script type="module" src="main.js"></script>
+    
   </body>
   
