@@ -127,7 +127,7 @@ function draw_leafs(filteredData, country, year) {
           theta: theta,
           type: 'scatterpolar',
           fill: 'toself',
-          name: variables[i].replace("SDG 6.4.1. ", "").replace("Water Use Efficiency", "") +" "+values[i]+" (US$/m3)" || `Leaf ${i + 1}`, // Use variable name or fallback
+          name: variables[i].replace("SDG 6.4.1. ", "").replace("Water Use Efficiency", "WUE") +" "+values[i]+" (US$/m3)" || `Leaf ${i + 1}`, // Use variable name or fallback
           hoverinfo: 'r+theta',
           fillcolor: colors[i],
           line: {
@@ -258,14 +258,16 @@ async function drawsunburstChart(year, country) {
               ],
               outsidetextfont: {size: 10, color: "#377eb8"},
               leaf: {opacity: 0.5},
-              marker: {line: {width: 2}},
+              marker: {line: {width: 3 , color:'black'} },
               textposition: 'inside',
               branchvalues: 'relative'
     }];
 
     var layout = {
       margin: {l: 0, r: 0, b: 0, t: 0},
-
+      uniformtext: {
+        minsize: 14,
+      },
       sunburstcolorway:["#FF6F61", "#6B5B95", "#88B04B"],
       paper_bgcolor: 'rgba(0,0,0,0)', // Makes the background transparent
       plot_bgcolor: 'rgba(0,0,0,0)'   // Makes the plot area transparent
